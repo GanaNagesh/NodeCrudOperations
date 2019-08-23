@@ -33,7 +33,7 @@ exports.mailUser= (req, res) => {
     dataTravel.sendMail(
         {
             to: email,
-            from: "hindustanschool1@gmail.com",
+            from: process.env.emailid,
             subject: "Welcome",
             html: output
         },
@@ -73,7 +73,7 @@ exports.insertTable= (req, res) => {
         bcryptjs.hash(password, salt, function (err, hash) {
             if (err) throw err;
             password = hash;
-            let sql = "INSERT INTO employee (id, empname, salary, email, password) VALUES ('" + id + "','" + empname + "','" + salary + "','" + email + "','" + password + "')";
+            let sql = `INSERT INTO employee (id, empname, salary, email, password) VALUES ( ${id} ,"${empname}","${salary}","${email}","${password}")`;
             db.query(sql)
                 .then(result => {
                     res.json({result: 'Data Inserted Successfully'});
@@ -81,7 +81,7 @@ exports.insertTable= (req, res) => {
                 })
                 .catch(error => {
                     res.send(error)
-                })
+          })
         })
     })
 }
@@ -103,7 +103,7 @@ exports.getData = (req, res) => {
 // GETTING A ROW BASED ON ID BCRYPT COMPARE
 exports.getID= (req, res) => {
     const { password } = req.body
-    db.query('SELECT *FROM EMPLOYEE WHERE ID= ?', [req.params.id])
+    db.query(`SELECT *FROM EMPLOYEE WHERE ID=${req.params.id}`)
         .then(result => {
             bcryptjs.compare(password, result[0].password, (err, match) => {
                 if (err)
@@ -121,7 +121,7 @@ exports.getID= (req, res) => {
 
 //DELETING A ROW
 exports.deleteUser = (req, res) => {
-    db.query('DELETE FROM EMPLOYEE WHERE ID= ?', [req.params.id])
+    db.query(`DELETE FROM EMPLOYEE WHERE ID= ${req.params.id}`)
         .then(result => {
             res.status(200).json({ msg: 'Delete Successfully' });
         }).catch(error => {
