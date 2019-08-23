@@ -118,7 +118,7 @@ exports.getID= (req, res) => {
         })
 }
 
-
+ 
 //DELETING A ROW
 exports.deleteUser = (req, res) => {
     db.query(`DELETE FROM EMPLOYEE WHERE ID= ${req.params.id}`)
