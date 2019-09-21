@@ -5,7 +5,7 @@ let userController = require('../controller/userController');
 router.use(bodyparser.urlencoded({ extended: true }));
 router.use(bodyparser.json());
 
-router.get('/', userController.createTable );
+router.get('/', userController.createTable);
 router.post('/mailSend',userController.mailUser );
 router.get('/test',userController.testingAPI );
 router.post('/insertData',userController.insertTable );
